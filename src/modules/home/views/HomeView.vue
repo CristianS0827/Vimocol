@@ -1,4 +1,9 @@
 <template>
+      <CategoryPreview
+    :open="openPreview"
+    @close-preview="closeCategoryPreview"
+    :category="categorySelected"
+  />
   <div class="justify-center items-center object-center">
     <div class="h-full py-24 w-full px-4">
       <div>
@@ -13,19 +18,25 @@
           @slideChange="onSlideChange"
         >
           <SwiperSlide
+            v-on:click="openCategoryPreview(category)"
+            @click="openPreview"
             v-for="category in categoryList"
             :key="category.id"
-            class="rounded-lg shadow-lg"
           >
             <img
-              :src="category.image"
-              class="w-full rounded-lg shadow-lg h-auto"
+              :src="category.Cat_image"
+              class="w-full rounded-lg shadow-lg h-[600px]"
             />
+
+            <div class="text-center mt-4 text-xl justify-center">
+              {{ category.Category_name }}
+            </div>
           </SwiperSlide>
         </Swiper>
       </div>
     </div>
   </div>
+
 </template>
 
 <script setup>
@@ -36,8 +47,21 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import CategoryPreview from "../common/CategoryPreview.vue";
 
 const store = useStore();
+
+const openPreview = ref(false);
+const categorySelected = ref(null);
+
+const openCategoryPreview = (data) => {
+  openPreview.value = true;
+  categorySelected.value = data;
+};
+
+const closeCategoryPreview = () => {
+  openPreview.value = false;
+};
 
 onMounted(() => {
   getCategories();
@@ -54,4 +78,8 @@ const onSlideChange = (swiper) => {};
 const modules = [Navigation, Pagination, Scrollbar];
 </script>
 
-<style></style>
+<style scoped>
+:deep(.swiper-pagination) {
+  bottom: 50px; /* Ajusta este valor según necesites */
+}
+</style>

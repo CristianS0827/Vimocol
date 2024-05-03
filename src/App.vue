@@ -1,7 +1,19 @@
-<script setup></script>
+<script setup>
+import { ref, watch } from "vue";
+import Cookies from "js-cookie";
+import { Toaster, toast } from "vue-sonner";
+
+watch(() => {});
+</script>
 
 <template>
   <div id="app">
+    <Toaster
+      rich-colors=""
+      position="top-center"
+      :close-button="true"
+      :duration="1500"
+    />
     <router-view />
   </div>
 </template>

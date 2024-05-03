@@ -1,4 +1,6 @@
 import { createStore } from "vuex";
+import createPersistedState from 'vuex-persistedstate';
+
 import state from "./state";
 import getters from "./getters";
 import mutations from "./mutations";
@@ -9,6 +11,12 @@ const store = createStore({
   getters,
   mutations,
   actions,
+  plugins: [
+    createPersistedState({
+      key: 'cart-list',
+      paths: ['cartList'],
+    }),
+  ],
 });
 
 export default store;

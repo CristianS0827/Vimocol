@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Cookies from "js-cookie";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -31,9 +32,26 @@ const router = createRouter({
           path: "",
           component: () => import("../modules/home/views/HomeView.vue"),
         },
+        {
+          name: "ProductList",
+          path: ":category/products",
+          component: () =>
+            import("../modules/home/views/products/ProductList.vue"),
+        },
       ],
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ["/auth/login", "/auth/register"];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = Cookies.get("AuthData");
+
+  if (authRequired && !loggedIn) {
+    return next("/auth/login");
+  }
+  next();
 });
 
 export default router;

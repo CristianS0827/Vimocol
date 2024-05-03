@@ -1,7 +1,7 @@
 <template>
-  <Header />
-  <div class="min-h-[calc(100vh-82px)]  bg-neutral-gray ">
-    <router-view />
+  <div class="min-h-screen bg-neutral-gray/50">
+    <Header />
+    <div><router-view /></div>
   </div>
 </template>
 
