@@ -101,12 +101,22 @@
                     <p class="mt-0.5 text-sm text-gray-500">
                       Envia un mensaje con los productos para mas detalles
                     </p>
-                    <div class="mt-6">
-                      <a
-                        href="#"
-                        class="flex items-center justify-center rounded-md border border-transparent bg-medium-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-medium-blue/80"
-                        >Cotizar productos</a
+                    <div class="mt-6 flex justify-center w-full">
+                      <button
+                        @click="makeQuotation"
+                        class="flex items-center w-full justify-center rounded-md border border-transparent bg-medium-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-medium-blue/80"
                       >
+                        <span
+                          v-if="isLoading"
+                          class="items-center object-center"
+                        >
+                          <svg
+                            class="w-4 mr-2 h-4 inline-flex border-2 mx-auto border-white border-l-medium-blue rounded-full animate-spin"
+                          ></svg
+                          >Realizar cotizacion</span
+                        >
+                        <span v-else>Realizar cotizacion</span>
+                      </button>
                     </div>
                     <div
                       class="mt-6 flex justify-center text-center text-sm text-gray-500"
@@ -143,6 +153,7 @@ import {
   watchEffect,
   onMounted,
   onUnmounted,
+  watch,
 } from "vue";
 import {
   Dialog,
@@ -153,6 +164,7 @@ import {
 } from "@headlessui/vue";
 import { XMarkIcon } from "@heroicons/vue/24/outline";
 import { useStore } from "vuex";
+import { data } from "autoprefixer";
 
 defineProps({
   open: Boolean,
@@ -161,10 +173,24 @@ defineProps({
 const store = useStore();
 const cartItems = computed(() => store.state.cartList);
 const dataCart = ref([]);
+const isLoading = ref(false);
+
+watchEffect(() => {
+  dataCart.value = cartItems.value;
+});
 
 const deleteCartItem = (data) => {
   try {
     store.dispatch("REMOVE_FROM_CART", { data });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const makeQuotation = () => {
+  const payload = dataCart.value;
+  try {
+    store.dispatch("MAKE_QUOTATION", { payload });
   } catch (error) {
     console.error(error);
   }

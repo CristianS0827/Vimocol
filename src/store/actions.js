@@ -129,4 +129,52 @@ export default {
     Cookies.remove("AuthData");
     commit("SET_USER", {});
   },
+  async MAKE_QUOTATION({ commit, state }) {
+    const productsString = localStorage.getItem("cart");
+    const userEmail = "example@gmail.com"; // Asegúrate de almacenar el correo electrónico del usuario en el almacenamiento local
+
+    if (productsString && userEmail) {
+      const products = JSON.parse(productsString);
+      const productIds = products.map((product) => product.id);
+
+      try {
+        const response = await axios({
+          method: "POST",
+          url: "http://127.0.0.1:8000/cart/quotation/",
+          data: {
+            product_ids: productIds,
+            user_email: userEmail,
+          },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${state.token}`,
+          },
+        });
+        toast.success(
+          "Cotización realizada correctamente, revisa tu correo electrónico"
+        );
+      } catch (error) {
+        console.error("Error while making quotation:", error);
+      }
+    } else {
+      toast.error(
+        "No hay productos en el carrito o correo electrónico de usuario para enviar la cotización"
+      );
+      console.log("No products in cart or user email to send for quotation");
+    }
+  },
+  async addProductToCart() {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "http://127.0.0.1:8000/cart/quotation/",
+        data: {
+          product_id: 1,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

@@ -1,8 +1,10 @@
+import Cookies from "js-cookie";
+
 export default {
   categoryList: [],
   productList: [],
   userData: {},
-  token: null,
-  isLogedIn:  false,
+  token: Cookies.get("AuthData") || null,
+  isLogedIn: false,
   cartList: [],
 };
