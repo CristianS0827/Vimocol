@@ -35,6 +35,7 @@ export default {
         },
       });
       if (response.status === 200) {
+        commit("SET_USER_MAIL", response.data.user.email);
         commit("SET_TOKEN", response.data.token);
         commit("SET_LOGED_IN", true);
         Cookies.set("AuthData", response.data.token, { expires: 1 });
@@ -127,12 +128,13 @@ export default {
   async LOGOUT_AUTH({ commit }) {
     commit("SET_TOKEN", null);
     Cookies.remove("AuthData");
+    commit("SET_LOGED_IN", false);
+    Cookies.remove("userMail");
     commit("SET_USER", {});
   },
   async MAKE_QUOTATION({ commit, state }) {
     const productsString = localStorage.getItem("cart");
-    const userEmail = "example@gmail.com"; // Asegúrate de almacenar el correo electrónico del usuario en el almacenamiento local
-
+    const userEmail = state.userMail;
     if (productsString && userEmail) {
       const products = JSON.parse(productsString);
       const productIds = products.map((product) => product.id);
@@ -153,6 +155,9 @@ export default {
         toast.success(
           "Cotización realizada correctamente, revisa tu correo electrónico"
         );
+        localStorage.removeItem("cart");
+        localStorage.removeItem("cartList");
+        commit("SET_CART_LIST", []);
       } catch (error) {
         console.error("Error while making quotation:", error);
       }

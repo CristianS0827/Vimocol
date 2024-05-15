@@ -7,4 +7,5 @@ export default {
   token: Cookies.get("AuthData") || null,
   isLogedIn: false,
   cartList: [],
+  userMail: Cookies.get('userMail')||'',
 };

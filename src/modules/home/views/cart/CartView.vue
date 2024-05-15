@@ -187,11 +187,15 @@ const deleteCartItem = (data) => {
   }
 };
 
-const makeQuotation = () => {
+const makeQuotation = async () => {
   const payload = dataCart.value;
+  if (payload.length === 0) {
+    isLoading.value = false;
+    return;
+  }
   isLoading.value = true;
   try {
-    store.dispatch("MAKE_QUOTATION", { payload });
+    await store.dispatch("MAKE_QUOTATION", { payload });
     isLoading.value = false;
   } catch (error) {
     console.error(error);

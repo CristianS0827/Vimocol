@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export default {
   SET_CATEGORY_LIST(state, payload) {
     state.categoryList = payload;
@@ -16,5 +18,9 @@ export default {
   },
   SET_LOGED_IN(state, payload) {
     state.isLogedIn = payload;
+  },
+  SET_USER_MAIL(state, payload) {
+    Cookies.set("userMail", payload);
+    state.userMail = payload;
   }
 };
