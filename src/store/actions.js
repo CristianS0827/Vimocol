@@ -63,6 +63,7 @@ export default {
         },
       });
       if (response.data.token) {
+        commit("SET_USER_MAIL", response.data.user.email);
         commit("SET_TOKEN", response.data.token);
         Cookies.set("AuthData", response.data.token, { expires: 1 });
         commit("SET_USER", response.data);
