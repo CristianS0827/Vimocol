@@ -103,6 +103,7 @@
                     </p>
                     <div class="mt-6 flex justify-center w-full">
                       <button
+                        :disabled="isLoading"
                         @click="makeQuotation"
                         class="flex items-center w-full justify-center rounded-md border border-transparent bg-medium-blue px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-medium-blue/80"
                       >

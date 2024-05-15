@@ -152,7 +152,7 @@ export default {
             Authorization: `Token ${state.token}`,
           },
         });
-        toast.success(
+        toast.info(
           "Cotización realizada correctamente, revisa tu correo electrónico"
         );
         localStorage.removeItem("cart");
