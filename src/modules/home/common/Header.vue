@@ -98,7 +98,7 @@
                   >
                 </DisclosurePanel>
               </Disclosure> -->
-              <a
+              <!-- <a
                 href="#"
                 class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >Servicios</a
@@ -107,17 +107,17 @@
                 href="#"
                 class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >Portafolio</a
-              >
-              <a
-                href="#"
+              > -->
+              <div
                 class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >Sobre nosotros</a
               >
-              <a
-                href="#"
+                <button @click="openPreviewAboutUs">Sobre nosotros</button>
+              </div>
+              <div
                 class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >Ubicacion</a
               >
+                <button @click="openPreviewUbication">Ubicacion</button>
+              </div>
             </div>
             <div class="py-6">
               <button
@@ -132,6 +132,8 @@
       </DialogPanel>
     </Dialog>
   </header>
+  <AboutUs :open="openAboutUs" @close-aboutus="closePreviewAboutUs" />
+  <Ubication :open="openUbication" @close-ubication="closePreviewUbication" />
 </template>
 
 <script setup>
@@ -139,6 +141,8 @@ import { ref, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import cartView from "../views/cart/CartView.vue";
+import AboutUs from "./headersComponents/AboutUs.vue";
+import Ubication from "./headersComponents/Ubication.vue";
 import {
   Dialog,
   DialogPanel,
@@ -170,6 +174,22 @@ const router = useRouter();
 const isAuth = computed(() => store.getters.IS_AUTHENTICATED);
 const mobileMenuOpen = ref(false);
 const openCart = ref(false);
+const openAboutUs = ref(false);
+const openUbication = ref(false);
+
+const openPreviewUbication = () => {
+  openUbication.value = true;
+};
+const closePreviewUbication = () => {
+  openUbication.value = false;
+};
+
+const openPreviewAboutUs = () => {
+  openAboutUs.value = true;
+};
+const closePreviewAboutUs = () => {
+  openAboutUs.value = false;
+};
 
 const cartList = computed(() => store.state.cartList);
 

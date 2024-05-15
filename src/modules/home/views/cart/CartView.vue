@@ -111,7 +111,7 @@
                           class="items-center object-center"
                         >
                           <svg
-                            class="w-4 mr-2 h-4 inline-flex border-2 mx-auto border-white border-l-medium-blue rounded-full animate-spin"
+                            class="w-4 mr-2 h-4 inline-flex border-2 mx-auto border-white border-l-black rounded-full animate-spin"
                           ></svg
                           >Realizar cotizacion</span
                         >
@@ -189,10 +189,13 @@ const deleteCartItem = (data) => {
 
 const makeQuotation = () => {
   const payload = dataCart.value;
+  isLoading.value = true;
   try {
     store.dispatch("MAKE_QUOTATION", { payload });
+    isLoading.value = false;
   } catch (error) {
     console.error(error);
+    isLoading.value = false;
   }
 };
 
